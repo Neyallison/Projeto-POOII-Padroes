@@ -1,4 +1,4 @@
-package classes;
+package com.mycompany.padroes;
 import java.util.ArrayList;
 
 //VOCÊ NÃO DEVE MODIFICAR ESTA CLASSE

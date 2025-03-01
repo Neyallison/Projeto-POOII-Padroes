@@ -1,4 +1,4 @@
-package classes;
+package com.mycompany.padroes;
 
 //VOCÊ NÃO DEVE MODIFICAR ESTA CLASSE
 public class ImportDataMEC {
