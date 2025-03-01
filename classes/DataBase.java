@@ -2,6 +2,7 @@ package com.mycompany.padroes;
 
 import java.util.ArrayList;
 
+
 //APLIQUE SINGLETON NESTA CLASSE
 
 public class DataBase {

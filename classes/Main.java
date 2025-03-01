@@ -4,6 +4,11 @@ package com.mycompany.padroes;
 import java.net.ProtocolFamily;
 import java.util.ArrayList;
 import java.util.Scanner;
+import com.mycompany.padroes.ExportData;
+import com.mycompany.padroes.ImportDataMEC;
+import com.mycompany.padroes.Adapter;
+import com.mycompany.padroes.DataBase;
+import com.mycompany.padroes.Aluno;
 
 public class Main {
   
@@ -51,12 +56,14 @@ public static void menuCoordenador(){
     System.out.println("║     5 - Cadastrar um curso              ║");
     System.out.println("║     6 - Cadastrar uma turma             ║");
     System.out.println("║     7 - Cadastrar um coordenador        ║");
-    System.out.println("║  8 - Atribuir notas aos estudantes      ║");
-    System.out.println("║     9 - Mostrar a estatística          ║");
-    System.out.println("║      10 - Lista de recuperação          ║");
-    System.out.println("║          11 - Lista geral               ║");
-    System.out.println("║           12 - Histórico                ║");
-    System.out.println("║             0 - Sair                    ║");
+    System.out.println("║     8 - Atribuir notas aos estudantes   ║");
+    System.out.println("║     9 - Mostrar a estatística           ║");
+    System.out.println("║    10 - Lista de recuperação            ║");
+    System.out.println("║    11 - Lista geral                     ║");
+    System.out.println("║    12 - Histórico                       ║");
+    System.out.println("║    13 - Exportar dados do estudante     ║");
+    System.out.println("║    14 - Importar dados para o MEC       ║");
+    System.out.println("║     0 - Sair                            ║");
     System.out.println("╚═════════════════════════════════════════╝");
     System.out.print("Opção: ");
     opcao = entrada.nextInt(); 
@@ -98,6 +105,12 @@ public static void menuCoordenador(){
       case 12:
         exibirHistorico();
         break;
+      case 13:
+        System.out.println(exportarDadosEstudante());
+        break;
+      case 14:
+        importDadosEstudanteMEC();
+        break;
       case 0:
           System.out.println("Saindo...");
           break;
@@ -105,6 +118,8 @@ public static void menuCoordenador(){
           System.out.println("Opção inválida!");
       }
     } while (opcao != 0);
+
+
 
 }
 
@@ -481,5 +496,31 @@ public static void cadastrarTurma(){
 
   System.out.println("Turma cadastrada com sucesso!");
 }
+
+
+public static String exportarDadosEstudante() {
+    DataBase db = DataBase.getInstance();
+    ArrayList<String[]> data = new ArrayList<>();
+    ExportData exp = new ExportData();
+    ArrayList<Aluno> alunos = db.getAlunos();
+
+    for (Aluno aluno : alunos) {
+        data.add(new String[]{"matricula", aluno.getMatricula()});
+        data.add(new String[]{"nome", aluno.getNome()});
+        data.add(new String[]{"cpf", aluno.getCpf()});
+        data.add(new String[]{"telefone", aluno.getTelefone()});
+        data.add(new String[]{"endereco", aluno.getEndereco()});
+    }
+
+    return exp.ArrayToXMLFormat(data, 5, "student");
+}
+
+public static void importDadosEstudanteMEC() {
+    String xml = exportarDadosEstudante();
+    String json = Adapter.convert(xml);  
+    ImportDataMEC imec = new ImportDataMEC();
+    imec.importData(json);
+}
+
 
 }
