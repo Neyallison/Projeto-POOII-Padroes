@@ -2,7 +2,7 @@ package com.mycompany.padroes;
 
 public class AlunoTurma {
     
-  private estado;
+  
     private Aluno aluno;
     private Nota nota;
 
